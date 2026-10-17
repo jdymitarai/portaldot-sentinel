@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portaldot Sentinel - Node Operations & Security Telemetry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card: #0f131c;
+      --border: #1e2638;
+      --primary: #6366f1;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 30px;
+    }
+    .wrapper { max-width: 1000px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid var(--primary);
+      color: #818cf8;
+      font-weight: 700;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+    }
+    h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px; }
+    .metric { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13.5px; }
+    .metric:last-child { border-bottom: none; }
+    .val { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #fff; }
+    .val.green { color: var(--accent); }
+    .btn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .log-box {
+      background: #04060a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #a7f3d0;
+      line-height: 1.6;
+      height: 260px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .full-card { grid-column: span 2; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div>
+        <h1 style="font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">Portaldot Sentinel</h1>
+        <p style="color: var(--muted); font-size: 13px; margin-top: 4px;">Node Operations & Security Vault Dashboard Â· Portaldot V3.0 EVM/WASM</p>
+      </div>
+      <span class="badge">TESTNET V3.0 CONNECTED</span>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Validator Node Invariants</h2>
+        <div class="metric">
+          <span style="color: var(--muted);">Target Validator</span>
+          <span class="val">validator-sg-01.portaldot</span>
+        </div>
+        <div class="metric">
+          <span style="color: var(--muted);">Vault Contract</span>
+          <span class="val">0x430D...9A3</span>
+        </div>
+        <div class="metric">
+          <span style="color: var(--muted);">WASM Engine State</span>
+          <span class="val green">ACTIVE / SYNCED</span>
+        </div>
+        <div class="metric">
+          <span style="color: var(--muted);">EVM Execution Layer</span>
+          <span class="val green">OPTIMAL (11.4ms)</span>
+        </div>
+        <div class="metric">
+          <span style="color: var(--muted);">Active Stake</span>
+          <span class="val">100.00 POT (Locked)</span>
+        </div>
+
+        <button class="btn" onclick="runTelemetryProbe()">Trigger Automated Node Probe</button>
+      </div>
+
+      <div class="card">
+        <h2>Telemetry Stream & Heartbeat Logs</h2>
+        <div class="log-box" id="logBox">Waiting for sentinel probe trigger...
+Click "Trigger Automated Node Probe" to simulate real-time EVM/WASM heartbeat and security invariant verification.</div>
+      </div>
+
+      <div class="card full-card">
+        <h2>Architecture & Verification Roadmap</h2>
+        <div style="font-size: 13.5px; line-height: 1.7; color: var(--muted);">
+          <strong style="color: #fff;">Portaldot Sentinel</strong> integrates directly with the <strong style="color: #fff;">PortaldotNodeSecurityVault</strong> Solidity contract on the Portaldot V3.0 EVM layer. It automatically tracks node latency, block increments, and peer discovery to broadcast cryptographic heartbeats. If a validator violates performance thresholds or drops offline, the guardian trigger enforces automated slashing penalties with cooldown protection.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function runTelemetryProbe() {
+      const box = document.getElementById('logBox');
+      box.innerText = `[*] Connecting to Portaldot V3.0 Testnet RPC (EVM Compatible)...
+[+] Verified RPC Chain ID: 8848 | Dual-Engine: WASM + EVM Subsystem
+[*]uerying PortaldotNodeSecurityVault at 0x430D8E5F0552359626CF259d78a1e4989a6B79A3:
+    -> Staked Balance: 100.0000 POT
+    -> Node Operator: 0x430D...9A3
+    -> Node State: NodeHealthState.HEALTHY
+[+] Executing Automated Node Telemetry Probe:
+    -> Node ID: validator-sg-01
+    -> Latency: 11.2ms (Threshold: < 500ms -> PASSED)
+    -> Peer Mesh Count: 58 Active Peers
+    -> Current Block Height: #2,490,182
+[â] Broadcasting Heartbeat to Vault Contract:
+    -> Tx Hash: 0x8a92b3c14d5e7f90123456789abcdef0123456789abcdef0123456789abcdef0
+    -> Digest: 0x9f1a8c2b740e3d5a...
+    -> Invariant Check: ALL_SYSTEMS_OPTIMAL`;
+    }
+  </script>
+</body>
+</html>
